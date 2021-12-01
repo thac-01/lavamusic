@@ -1,11 +1,16 @@
 const { MessageEmbed } = require("discord.js");
+const { TextChannel } = require('discord.js')
 
 module.exports = async (client, player, oldChannel, newChannel) => {
-      const channel = client.guild.channels.cache.get(player.textChannel);
-       if (!newChannel) {
+      const messageChannel = client.channels.cache.get(player.textChannel);
+
+      const musicStop = new MessageEmbed()
+      .setDescription('Music stopped as I have been disconnected from the voice channel.');
+
+      if (!newChannel) {
         await player.destroy();
-        return channel.send({ embeds: [new MessageEmbed()].setDescription("Music stopped as I have been disconnected from the voice channel.")})
+        return messageChannel.send({ embeds: [musicStop] });
       } else {
         player.voiceChannel = newChannel;
       }
-			}
+      }
